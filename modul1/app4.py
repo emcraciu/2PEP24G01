@@ -1,4 +1,4 @@
-""" Keep track of how many time s a function is called """
+""" Keep track of how many times a function is called """
 
 from functools import wraps
 
