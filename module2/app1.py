@@ -65,8 +65,8 @@ Ethernet adapter vEthernet (Default Switch (Wi-Fi)):
 {"Ethernet adapter vEthernet (Default Switch (Wi-Fi))": "172.29.96.1/255.255.240.0" }
 
 
-ip = re.search(r"IPv4\s+Address(\.\s)+:\s(?P<ip_group>\d{1, 3}\.\d{1, 3}\.\d{1, 3}\.\d{1, 3})", config)
-print(ip.group('ip_group'))
+# ip = re.search(r"IPv4\s+Address(\.\s)+:\s(?P<ip_group>\d{1, 3}\.\d{1, 3}\.\d{1, 3}\.\d{1, 3})", config)
+# print(ip.group('ip_group'))
 
 def get_interface_ip(ipconfig_output) -> dict:
     result = {}

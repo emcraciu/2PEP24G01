@@ -25,9 +25,18 @@ class SystemInformation():
         average = total / count
         return average
 
+
+
     def get_route_information(self):
-        pass
+        route_output = os.popen("route print").read()
+
+        split_routes = re.split(r"Active\sRoutes:", route_output)
+        for route_table in split_routes[1:]:
+            for line in route_table.splitlines():
+                routes = re.search(r"(?P<route>[0-9.]+\s+[0-9.]+\s+([0-9.]+|On-link)\s+[0-9.]+\s+\d{1,3})", line)
+                if routes:
+                    print(routes.group("route"))
 
 
 system = SystemInformation()
-print(system.get_cpu_average(7))
+system.get_route_information()
