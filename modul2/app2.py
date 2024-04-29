@@ -2,7 +2,7 @@ import os
 import re
 import time
 
-from module2.app1 import get_interface_ip
+from modul2.app1 import get_interface_ip
 
 
 class SystemInformation():
