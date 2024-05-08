@@ -10,3 +10,9 @@ class  Utils:
 
     def get_ip_address(self) -> str:
         pass
+
+
+if __name__ == "__main__":
+    util = Utils()
+    util.cpu_usage()
+    util.get_ip_address()
