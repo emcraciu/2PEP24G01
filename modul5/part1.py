@@ -1,15 +1,19 @@
 import asyncio
-
+import json
 import aiohttp
 
 
 async def get_time(regions: list):
     async with aiohttp.ClientSession() as session:
+        responses = []
         for region in regions:
             response = await session.request(
                 method="GET",
-                url=f"https://worldtimeapi.org/api/timezone/America/Boisehttps://worldtimeapi.org/api/timezone/{region}")
-            print(response.text)
+                url=f"https://worldtimeapi.org/api/timezone/{region}")
+            responses.append(response)
+        for response in responses:
+            result = await response.text()
+            print(result)
 
 
 async def main():
