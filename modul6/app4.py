@@ -6,7 +6,8 @@ import requests
 def time_zone_generator(queue: Queue):
     response = requests.get('https://www.timeapi.io/api/TimeZone/AvailableTimeZones')
     text = response.text
-    queue.put(json.loads(text))
+    for obj in json.loads(text):
+        queue.put(obj)
 
 
 def time_zone_consumer(queue: Queue, out: Queue, lock_: Lock):
