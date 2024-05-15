@@ -24,12 +24,14 @@ import requests
 
 def time_zone(region):
     print(f"Process region: {region}")
-    response = requests.get(f'https://worldtimeapi.org/api/timezone/{region}')
+    # response = requests.get(f'https://worldtimeapi.org/api/timezone/{region}')
+    response = requests.get(f"https://www.timeapi.io/api/Time/current/zone?timeZone={region}")
     text = response.text
     time_zones = json.loads(text)
-    return time_zones
+    return time_zones  # needs to be python builtin object
 
 
 if __name__ == '__main__':
     with Pool(5) as p:
-        print(p.map(time_zone, ["Africa", "America", "Europa"]))
+        result = p.map(time_zone, ["Africa/Juba", "America/Caracas", "Europe/Amsterdam"])
+        print(result)
