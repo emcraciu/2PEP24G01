@@ -1,9 +1,6 @@
 import random
-import time
 from threading import Thread
 import socket
-
-PRIME_RANGES = [[1000, 2000], [3000, 4000]]
 
 
 def is_prime(number: int):
@@ -15,15 +12,10 @@ def is_prime(number: int):
 
 def primes(start_number: int, stop_number):
     result = []
-    if not stop_number or not stop_number:
-        start_number, stop_number = PRIME_RANGES.pop(0)
     for i in range(start_number, stop_number + 1):
         if is_prime(i):
             result.append(i)
     return result
-
-
-
 
 
 class Connect:
@@ -33,7 +25,7 @@ class Connect:
         self.port = port
 
     def generate_prime(self):
-        primes_list = primes(129, 256)
+        primes_list = primes(100000, 200000)
         self.prime = random.choice(primes_list)
 
     def get_prime(self, prime):
@@ -110,6 +102,8 @@ class Server(Connect):
         print(f'Local_factor: {local}')
         self.conn.send(bytes(f"{local}", encoding="UTF-8"))
         self.get_secret(int(self.conn.recv(1024)))
+
+
 #
 
 server = Server(host='localhost', port=11601)
