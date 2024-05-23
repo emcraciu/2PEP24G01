@@ -1,5 +1,7 @@
 from threading import Thread
 
+PRIME_RANGES = [[1000, 2000], [3000, 4000]]
+
 
 def is_prime(number: int):
     for i in range(2, number // 2 + 1):
@@ -8,9 +10,11 @@ def is_prime(number: int):
     return True
 
 
-def primes(limit: int):
+def primes(start_number: int, stop_number):
     result = []
-    for i in range(1, limit + 1):
+    if not stop_number or not stop_number:
+        start_number, stop_number = PRIME_RANGES.pop(0)
+    for i in range(start_number, stop_number + 1):
         if is_prime(i):
             result.append(i)
     return result
@@ -42,8 +46,8 @@ class Server(Thread):
         print(self.output)
 
 
-prime1 = Client(target=primes, args=(10000,))
-prime2 = Server(target=primes, args=(10000,))
+prime1 = Client(target=primes, args=(None, None))
+prime2 = Server(target=primes, args=(None, None))
 
 for proc in [prime1, prime2]:
     proc.start()
