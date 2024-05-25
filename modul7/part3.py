@@ -104,8 +104,6 @@ class Server(Connect):
         self.get_secret(int(self.conn.recv(1024)))
 
 
-#
-
 server = Server(host='localhost', port=11601)
 client = Client(host='localhost', port=11601)
 
