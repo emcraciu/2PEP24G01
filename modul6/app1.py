@@ -1,4 +1,6 @@
 # get datetime object from "https://www.timeapi.io/api/Time/current/zone?timeZone=..."
+from multiprocessing import Pool
+
 
 def time_zone(region):
     time_zones = None
