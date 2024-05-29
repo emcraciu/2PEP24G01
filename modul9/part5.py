@@ -52,11 +52,12 @@ class Login:
 
     def run(self):
         self.main_window.mainloop()
+        self.main_window.destroy()
 
 
 login = Login()
 login.run()
 if login_fail:
     quit()
-# triangle = Triangle()
-# triangle.run()
+triangle = Triangle()
+triangle.run()
