@@ -1,6 +1,7 @@
 import tkinter
 import os
 import tkinter.messagebox
+from functools import partial
 
 text: tkinter.Text
 entry1: tkinter.Entry
@@ -69,7 +70,7 @@ class MailButtons(tkinter.Frame):
                    "Cancel": lambda: True, "Edit": lambda: True}
         for btn_name, btn_func in buttons.items():
             btn = tkinter.Button(self, text=btn_name,
-                                 command=btn_func)
+                                 command=partial(lambda name: print(name), btn_name))
             btn.pack()
 
 
