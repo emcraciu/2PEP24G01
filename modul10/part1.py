@@ -11,6 +11,7 @@ username: str
 password: str
 
 def send_email(username, password, message):
+    pass
 
 
 def send_message(sender="", receiver=""):
