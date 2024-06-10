@@ -21,4 +21,5 @@ def area(length: int, width: int):
     return length * width
 
 
-print(area(10, 10))
+if __name__ == "__main__":
+    print(area(10, 10))
