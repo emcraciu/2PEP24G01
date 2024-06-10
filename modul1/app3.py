@@ -3,6 +3,7 @@
 from time import sleep
 from functools import wraps
 
+test_cond = True
 
 def delay(seconds=0):
     def decorator(func):
