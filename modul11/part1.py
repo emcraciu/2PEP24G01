@@ -14,11 +14,12 @@ def my_sleep(val: int, arg1):
     """
     print("before sleep")
     try:
-        time.sleep(val)
+        time.sleep(val)  # TODO: need to change
     except Exception:  # pylint: disable=broad-except
         print("Exception encountered")
     finally:
         print("completed")
+
 
 def my_sleep2(val: int, arg1):
     """
