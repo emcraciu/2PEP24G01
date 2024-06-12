@@ -1,4 +1,3 @@
-# TK menue
 import tkinter
 
 
@@ -9,6 +8,11 @@ class App1():
         self.main_window = main_window
         self.main_window.title(self.title)
         self.add_menu()
+        self.add_text_area()
+
+    def add_text_area(self):
+        self.text_area = tkinter.Text(self.main_window, height=30, width=50)
+        self.text_area.pack()
 
     def add_menu(self):
         menu_l1_1 = tkinter.Menu(self.main_window)
@@ -31,7 +35,8 @@ class App1():
         print("opening file")
 
     def print_file(self):
-        print("printing file")
+        text = self.text_area.get(0.0, tkinter.END)
+        print(text)
 
     def run(self):
         self.main_window.mainloop()
