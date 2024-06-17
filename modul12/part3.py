@@ -32,7 +32,10 @@ class App1():
         menu_l2_1.add_command(label="Print", command=self.print_file)
 
     def open_file(self):
-        print("opening file")
+        with open('input.txt', 'r') as file:
+            text = file.read()
+        self.text_area.delete(0.0, tkinter.END)
+        self.text_area.insert(0.0, text)
 
     def print_file(self):
         text = self.text_area.get(0.0, tkinter.END)
