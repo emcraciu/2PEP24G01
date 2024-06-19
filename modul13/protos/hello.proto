@@ -4,6 +4,7 @@ package modul13;
 
 service Greeter {
   rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc SayGoodbye (GoodbyeRequest) returns (GoodbyeReply) {}
 }
 
 message HelloRequest {
@@ -14,4 +15,12 @@ message HelloRequest {
 message HelloReply {
   string message = 1;
   int32 age = 2;
+}
+
+message GoodbyeRequest {
+  bool request_goodbye = 1;
+}
+
+message GoodbyeReply {
+  float goodbye_time = 1;
 }
