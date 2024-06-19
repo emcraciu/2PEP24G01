@@ -1,3 +1,4 @@
+import datetime
 import logging
 
 import grpc
@@ -12,7 +13,9 @@ class Greeter(hello_pb2_grpc.GreeterServicer):
 
     def SayHello(self, request, context):
         name = request.name
-        return hello_pb2.HelloReply(message=f"Nice to know you {name}")
+        year = request.year
+        age = datetime.datetime.now().year - year
+        return hello_pb2.HelloReply(message=f"Nice to know you {name}", age=age)
 
 
 def server_start():
