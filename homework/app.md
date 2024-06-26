@@ -10,5 +10,11 @@
 
 ## Ciprian - (will work on finance app)
 
+- app in tkinter window (completed)
+- app support for feeds 
+- mesure time in application and create graph 
+- check possibility of threading or async requests
+- 
+
     
 
