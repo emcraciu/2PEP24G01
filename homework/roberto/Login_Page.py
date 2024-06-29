@@ -2,14 +2,13 @@
 
 import tkinter as tk
 from tkinter import messagebox
-from Main_Page import  MainPage
-
-
+from Menu_Page import MenuPage
 
 class LoginPage(tk.Frame):
     """
     This is the login class with its methods.
     """
+
     def __init__(self, master):
         super().__init__(master)
         self.login_try = 0
@@ -22,8 +21,7 @@ class LoginPage(tk.Frame):
         self.entry2.grid(row=1, column=1)
 
         tk.Button(self, text="Login", command=self.login).grid(row=2, column=0)
-        tk.Button(self, text="Cancel",
-                  command=lambda: master.switch_frame(MainPage)).grid(row=2, column=1)
+
 
         self.check = tk.IntVar()
         tk.Checkbutton(self, text="I am not a robot", variable=self.check).grid(row=3, column=0)
@@ -37,14 +35,40 @@ class LoginPage(tk.Frame):
             self.login_try += 1
         else:
             self.master.quit()
-        if self.entry1.get() == "Roberto" and self.entry2.get() == "1234":
-            print("login success")
-            self.master.switch_frame(MainPage)
-        elif not self.check.get():
-            messagebox.showinfo("Calendar", "You cannot login.")
-        else:
-            print("Login failed")
 
+        username = self.entry1.get()
+        password = self.entry2.get()
+
+        if not self.check.get():
+            messagebox.showinfo("Calendar", "You cannot login.")
+            return
+
+        if self.validate_credentials(username, password):
+            messagebox.showinfo("Calendar", "Login success")
+            self.master.switch_frame(MenuPage)
+        else:
+            messagebox.showinfo("Calendar", "Username or password incorrect")
+
+    def validate_credentials(self, username, password):
+        """
+        Validate the username and password against the Accounts.txt file.
+        :param username: The username to validate.
+        :param password: The password to validate.
+        :return: True if the credentials are valid, False otherwise.
+        """
+        try:
+            with open("Accounts.txt", "r") as file:
+                accounts = file.read().split("-------------------------\n")
+                for account in accounts:
+                    account_details = account.split("\n")
+                    account_info = {line.split(": ")[0]: line.split(": ")[1] for line in account_details if
+                                    ": " in line}
+                    if account_info.get("Username") == username and account_info.get("Password") == password:
+                        return True
+        except FileNotFoundError:
+            messagebox.showinfo("Calendar", "Accounts file not found.")
+
+        return False
 
 
 
