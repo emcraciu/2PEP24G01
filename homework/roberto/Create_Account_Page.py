@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 
+
 class CreateAccountPage(tk.Frame):
     """
     This is the CreateAccountPage class with its methods.
@@ -34,8 +35,7 @@ class CreateAccountPage(tk.Frame):
         self.entry7.grid(row=6, column=1)
 
         tk.Button(self, text="Create", command=self.create_account).grid(row=7, column=0)
-        tk.Button(self, text="Cancel",
-                  command=lambda: master.switch_frame(MainPage)).grid(row=7, column=1)
+
 
         self.check = tk.IntVar()
         tk.Checkbutton(self, text="Accept terms and conditions.", variable=self.check).grid(row=8, column=0)
