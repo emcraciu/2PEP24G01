@@ -1,1 +1,11 @@
 pywebview
+streamlit
+pandas
+streamlit_authenticator
+numpy
+datetime
+time
+yfinance
+babel.numbers
+cufflinks
+plotly.express
