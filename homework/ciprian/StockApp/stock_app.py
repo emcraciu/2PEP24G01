@@ -1,16 +1,14 @@
 import csv
 import json
-
-import streamlit as st
 import warnings
 warnings.filterwarnings("ignore")
+import streamlit as st
 import streamlit_authenticator as stauth
 import requests
 
 from stocks import Stock
 from stocks_analytics import StockAnalytic
 import config_data
-
 
 def main() -> None:
     # with open(r'C:\Users\Ciprian QCD\PycharmProjects\2PEP24G01_me\homework\ciprian\StockApp\config.yaml') as file:
@@ -19,9 +17,9 @@ def main() -> None:
     config = config_data.Users(), config_data.Cookies(), config_data.Preauthorized()
     authenticator = stauth.Authenticate(
         config[0]['credentials'],
-        config[1]['cookie']['csporea']['name'],
-        config[1]['cookie']['csporea']['key'],
-        config[1]['cookie']['csporea']['expiry_days'],
+        config[1]['cookie'].get('csporea', {}).get('name', 'user_name'),
+        config[1]['cookie'].get('csporea', {}).get('key', 'user_key'),
+        config[1]['cookie'].get('csporea', {}).get('expiry_days', 30),
         config[2]['pre-authorized']
     )
     authenticator.login()
