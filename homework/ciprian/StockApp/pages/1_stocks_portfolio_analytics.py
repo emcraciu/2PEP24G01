@@ -38,9 +38,9 @@ def main() -> None:
     config = config_data.Users(), config_data.Cookies(), config_data.Preauthorized()
     authenticator = stauth.Authenticate(
         config[0]['credentials'],
-        config[1]['cookie']['csporea']['name'],
-        config[1]['cookie']['csporea']['key'],
-        config[1]['cookie']['csporea']['expiry_days'],
+        config[1]['cookie'].get('csporea', {}).get('name', 'user_name'),
+        config[1]['cookie'].get('csporea', {}).get('key', 'user_key'),
+        config[1]['cookie'].get('csporea', {}).get('expiry_days', 30),
         config[2]['pre-authorized']
     )
     authenticator.login()

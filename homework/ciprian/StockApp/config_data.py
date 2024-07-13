@@ -18,7 +18,7 @@ def deleteUser(table, id):
     con.commit()
     con.close()
 
-deleteUser('users', 4)
+# deleteUser('users', 4)
 
 def updateUserColumn(table, id, col_name, col_value):
     con = sql.connect(r"C:\Users\Ciprian QCD\PycharmProjects\2PEP24G01_me\homework\ciprian\StockApp\config.db")
