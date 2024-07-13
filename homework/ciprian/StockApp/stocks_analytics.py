@@ -1,9 +1,12 @@
 from stocks import Stock
 import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime
 import yfinance as yf
 import babel.numbers as bab
+
+import yahoo_data
+from decorators import log_time_decorator
 
 class StockAnalytic(Stock):
 
@@ -14,7 +17,7 @@ class StockAnalytic(Stock):
 
     @staticmethod
     def position_hold_time(date1, date2):
-        ''' A function that computes the holding time of a stock position in days '''
+        """ A function that computes the holding time of a stock position in days"""
         if date2 == None:
             date2 = datetime.today().date()
         else:
@@ -35,26 +38,31 @@ class StockAnalytic(Stock):
         return nr_shares.iloc[0][0] #if nr_shares.shape[0] > 0 else 0
 
     @staticmethod
+    @log_time_decorator
     def profit_per_transaction(buy_price, sell_price):
         return np.round(sell_price - buy_price, 2)
 
     @staticmethod
+    @log_time_decorator
     def profit_per_transaction_proc(buy_price, sell_price):
         profit = sell_price - buy_price
         PL_per = np.round(((buy_price + profit) / buy_price - 1) * 100, 2)
         return PL_per
 
     @staticmethod
+    @log_time_decorator
     def profit_per_transaction_now(val, nr_shares, buy_price_per_share, price_now):
         return None if not pd.isnull(val) else np.round(nr_shares * (price_now - buy_price_per_share), 2)
 
     @staticmethod
+    @log_time_decorator
     def profit_per_transaction_now_percent(val, nr_shares, buy_price_per_share, price_now):
         initial_cost = nr_shares * buy_price_per_share
         profit = nr_shares * (price_now - buy_price_per_share)
         return None if not pd.isnull(val) else np.round(((initial_cost + profit) / initial_cost - 1)*100, 2)
 
     @classmethod
+    @log_time_decorator
     def profit_stock(cls, ticker):
         stock_tbl = Stock.stock_df
         # Stock.remove_col(stock_tbl, ['Open (Buy)', 'Close (Sell)', 'nr. shares.1'])
@@ -76,6 +84,7 @@ class StockAnalytic(Stock):
         return stock_tbl
 
     @staticmethod
+    @log_time_decorator
     def realised_return_stock(df, ticker):
         stock_tbl = df.loc[(df['Stock'] == ticker) & (df['sell value'].notnull())]
         stock_tbl = stock_tbl[['Stock', 'Profit ($)']]
@@ -83,6 +92,7 @@ class StockAnalytic(Stock):
         return np.round(total_profit.iloc[0][0], 2) if total_profit.shape[0] > 0 else None
 
     @staticmethod
+    @log_time_decorator
     def realised_return_stock_percent(df, ticker):
         stock_tbl = df.loc[(df['Stock'] == ticker) & (df['sell value'].notnull())]
         stock_tbl = stock_tbl[['Stock', 'buy value', 'sell value']]
@@ -91,10 +101,11 @@ class StockAnalytic(Stock):
         return res
 
     @staticmethod
+    @log_time_decorator
     def yahoo_stock_last_price(ticker):
         stock_df = yf.download(ticker, period='5d', progress=False)
-        last_price = np.round(stock_df['Adj Close'].tail(1)[0], 2)
-        variation = np.round((last_price / stock_df['Adj Close'].tail(2)[0] - 1) * 100, 2)
+        last_price = np.round(stock_df['Adj Close'].tail(1).iloc[0], 2)
+        variation = np.round((last_price / stock_df['Adj Close'].tail(2).iloc[0] - 1) * 100, 2)
         return last_price, variation
 
     @staticmethod
@@ -106,6 +117,7 @@ class StockAnalytic(Stock):
         return bab.format_currency(val, currency, locale='en_US', decimal_quantization=True)
 
     @staticmethod
+    @log_time_decorator
     def average_cost_per_share(df, ticker):
         dff = df.loc[(df['Stock'] == ticker) & df['sell value'].isnull()]
         if dff.shape[0] > 0:
@@ -118,6 +130,7 @@ class StockAnalytic(Stock):
         return total_cost_open.iloc[0][0], base_cost_open
 
     @staticmethod
+    @log_time_decorator
     def unrealised_return_stock(df, ticker, price_now):
         dff = df.loc[(df['Stock'] == ticker) & df['sell value'].isnull()]
         if dff.shape[0] > 0:
@@ -129,6 +142,7 @@ class StockAnalytic(Stock):
         return res
 
     @staticmethod
+    @log_time_decorator
     def unrealised_return_stock_percent(df, ticker, price_now):
         potential_profit = StockAnalytic.unrealised_return_stock(df, ticker, price_now)
         market_value = StockAnalytic.shares_left(df, ticker) * price_now
@@ -139,6 +153,7 @@ class StockAnalytic(Stock):
         return res if res != 0 else None
 
     @classmethod
+    @log_time_decorator
     def profit_stock_now(cls, ticker):
         df = StockAnalytic.profit_stock(ticker).reset_index(drop=True)
         Stock.remove_col(df, ['Open (Buy)', 'Close (Sell)', 'nr. shares.1'])
@@ -175,6 +190,7 @@ class StockAnalytic(Stock):
         return df#.iloc[(m - n):m, :]
 
     @staticmethod
+    @log_time_decorator
     def stock_weight(df, ticker):
         dff = Stock.stock_df.loc[(Stock.stock_df['Stock'] == ticker) & Stock.stock_df['sell value'].isnull()]
         df1 = Stock.stock_df
@@ -189,6 +205,7 @@ class StockAnalytic(Stock):
         return res
 
     @staticmethod
+    @log_time_decorator
     def stock_weight_now(df, ticker):
         dff = Stock.stock_df.loc[(Stock.stock_df['Stock'] == ticker) & Stock.stock_df['sell value'].isnull()]
         df1 = Stock.stock_df
@@ -204,13 +221,23 @@ class StockAnalytic(Stock):
         return res
 
     @classmethod
+    @log_time_decorator
     def portfolio_summary(cls, ticker_lst, ticker_open):
         df = pd.DataFrame({'Stock': ticker_lst}, index=np.arange(len(ticker_lst)))
-        current_prices = {}
-        current_chg = {}
-        for ticker in ticker_lst:
-            current_prices[ticker] = StockAnalytic.yahoo_stock_last_price(ticker)[0]
-            current_chg[ticker] = StockAnalytic.yahoo_stock_last_price(ticker)[1]
+        # with open(r'C:\Users\Ciprian QCD\PycharmProjects\2PEP24G01_me\homework\ciprian\StockApp\test.txt', 'w') as f:
+        #     f.write(str(list(ticker_lst)))
+
+        current_prices = yahoo_data.yahoo_data(list(ticker_lst))[0]
+        current_chg = yahoo_data.yahoo_data(list(ticker_lst))[1]
+
+        # with open(r'C:\Users\Ciprian QCD\PycharmProjects\2PEP24G01_me\homework\ciprian\StockApp\test.txt', 'a') as f:
+        #     f.write(str(current_chg))
+
+        # current_prices = {}
+        # current_chg = {}
+        # for ticker in ticker_lst:
+        #     current_prices[ticker] = StockAnalytic.yahoo_stock_last_price(ticker)[0]
+        #     current_chg[ticker] = StockAnalytic.yahoo_stock_last_price(ticker)[1]
 
         df.insert(df.shape[1], 'shares left',
                   df.apply(lambda row: StockAnalytic.shares_left(Stock.stock_df, row['Stock']), axis=1))
@@ -250,7 +277,6 @@ class StockAnalytic(Stock):
                    PL , None, None]
         df.loc[df.shape[0]] = profits
         df.index = df.index + 1
-
 
         return df
 

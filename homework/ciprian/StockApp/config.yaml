@@ -1,0 +1,21 @@
+credentials:
+  usernames:
+    csporea:
+      email: sporea.ciprian@gmail.com
+      failed_login_attempts: 0 # Will be managed automatically
+      logged_in: False # Will be managed automatically
+      name: Ciprian Sporea
+      password: asd # Will be hashed automatically
+    rbrig:
+      email: rbrig@gmail.com
+      failed_login_attempts: 0 # Will be managed automatically
+      logged_in: False # Will be managed automatically
+      name: Rebecca Brig
+      password: def # Will be hashed automatically
+cookie:
+  expiry_days: 30
+  key: some_signature_key # Must be string
+  name: some_cookie_name
+pre-authorized:
+  emails:
+  - sporea.ciprian@gmail.com
