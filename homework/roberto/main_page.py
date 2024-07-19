@@ -17,7 +17,8 @@ class MainPage(tk.Frame):
         login_button = tk.Button(self, text="Login", command=lambda: master.switch_frame(LoginPage))
         login_button.pack(pady=10)
 
-        create_account_button = tk.Button(self, text="Create Account", command=lambda: master.switch_frame(CreateAccountPage))
+        create_account_button = tk.Button(self, text="Create Account",
+                                          command=lambda: master.switch_frame(CreateAccountPage))
         create_account_button.pack(pady=10)
 
         exit_button = tk.Button(self, text="Exit", command=self.exit_app)

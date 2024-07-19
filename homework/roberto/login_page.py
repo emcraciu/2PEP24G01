@@ -60,9 +60,10 @@ class LoginPage(tk.Frame):
                 accounts = file.read().split("-------------------------\n")
                 for account in accounts:
                     account_details = account.split("\n")
-                    account_info = {line.split(": ")[0]: line.split(": ")[1] for line in account_details if
+                    account_i = {line.split(": ")[0]: line.split(": ")[1]
+                                    for line in account_details if
                                     ": " in line}
-                    if account_info.get("Username") == username and account_info.get("Password") == password:
+                    if account_i.get("Username")==username and account_i.get("Password")==password:
                         return True
         except FileNotFoundError:
             messagebox.showinfo("Calendar", "Accounts file not found.")

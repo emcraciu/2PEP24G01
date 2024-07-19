@@ -1,8 +1,10 @@
+"""Menu Page class"""
+
 import tkinter as tk
+from tkinter import messagebox
+from datetime import datetime
 from send_mail_page import SendMailPage
 from show_calendar import ShowCalendar
-from datetime import datetime
-from tkinter import messagebox
 
 class MenuPage(tk.Frame):
     """
@@ -11,6 +13,9 @@ class MenuPage(tk.Frame):
     title = "ScheduleSync"
 
     def __init__(self, master):
+        """
+        Initialize the MenuPage frame.
+        """
         super().__init__(master)
         self.master = master
         self.master.title(self.title)
@@ -19,6 +24,9 @@ class MenuPage(tk.Frame):
         tk.Label(self, text="What are the plans for today?", font=("Helvetica", 20)).pack(pady=30)
 
     def add_menu(self):
+        """
+        Add menu items to the menu bar.
+        """
         menu_l1_1 = tk.Menu(self.master)
         self.master.config(menu=menu_l1_1)
 
@@ -51,8 +59,11 @@ class MenuPage(tk.Frame):
         menu_l2_3.add_separator()
         menu_l2_3.add_command(label="LogOut", command=self.exit_app)
 
-    def create_meeting(self):
-        """Open a new frame for creating a meeting."""
+    def create_meeting(self):#pylint: disable=too-many-locals
+        #pylint: disable=too-many-statements
+        """
+        Open a new frame for creating a meeting.
+        """
         title = "Create Meeting"
         new_window = tk.Toplevel(self.master)
         new_window.title(title)
@@ -82,13 +93,17 @@ class MenuPage(tk.Frame):
 
         tk.Label(new_window, text="Access Level:").pack()
         access_level_var = tk.StringVar(value="Everyone")
-        access_everyone_rb = tk.Radiobutton(new_window, text="Everyone", variable=access_level_var, value="Everyone")
+        access_everyone_rb = tk.Radiobutton(new_window,
+                                            text="Everyone",
+                                            variable=access_level_var, value="Everyone")
         access_everyone_rb.pack()
-        access_private_rb = tk.Radiobutton(new_window, text="Private", variable=access_level_var, value="Private")
+        access_private_rb = tk.Radiobutton(new_window, text="Private",
+                                           variable=access_level_var, value="Private")
         access_private_rb.pack()
 
         usernames_label = tk.Label(new_window, text="Usernames (comma-separated):")
         usernames_entry = tk.Entry(new_window)
+
         def toggle_usernames_entry():
             if access_level_var.get() == "Private":
                 usernames_label.pack()
@@ -102,9 +117,12 @@ class MenuPage(tk.Frame):
 
         tk.Label(new_window, text="Importance:").pack()
         importance_var = tk.StringVar(value="Optional")
-        importance_optional_rb = tk.Radiobutton(new_window, text="Optional", variable=importance_var, value="Optional")
+        importance_optional_rb = tk.Radiobutton(new_window,
+                                                text="Optional",
+                                                variable=importance_var, value="Optional")
         importance_optional_rb.pack()
-        importance_important_rb = tk.Radiobutton(new_window, text="Important", variable=importance_var,
+        importance_important_rb = tk.Radiobutton(new_window,
+                                                 text="Important", variable=importance_var,
                                                  value="Important")
         importance_important_rb.pack()
 
@@ -117,7 +135,7 @@ class MenuPage(tk.Frame):
             importance = importance_var.get()
 
             # Write meeting details to file
-            with open("meetings.txt", "a") as file:
+            with open("meetings.txt", "a", encoding='utf-8') as file:
                 file.write(f"Meeting: {meeting_name}\n")
                 file.write(f"Date: {selected_date}\n")
                 file.write(f"Hour Interval: {hour_interval}\n")
@@ -125,20 +143,23 @@ class MenuPage(tk.Frame):
                 file.write(f"Usernames: {usernames}\n")
                 file.write(f"Importance: {importance}\n\n")
 
-            print(f"Meeting saved: {meeting_name} on {selected_date} at {hour_interval} ({access_level}, {usernames}, {importance})")
+            print(f"Meeting saved: {meeting_name} on {selected_date} at {hour_interval} "
+                  f"({access_level}, {usernames}, {importance})")
             new_window.destroy()
 
         tk.Button(new_window, text="Save Meeting", command=save_meeting).pack(pady=20)
         tk.Button(new_window, text="Close", command=new_window.destroy).pack(pady=5)
 
     def show_meeting(self):
-        """Show today's meetings or display a message if there are none."""
+        """
+        Show today's meetings or display a message if there are none.
+        """
         today = datetime.today().strftime('%Y-%m-%d')
         meetings_today = []
 
         # Read meetings from the file and check for today's meetings
         try:
-            with open("meetings.txt", "r") as file:
+            with open("meetings.txt", "r", encoding='utf-8') as file:
                 lines = file.readlines()
 
             current_meeting = {}
@@ -175,27 +196,23 @@ class MenuPage(tk.Frame):
     def send_mail(self):
         """
         This is the send mail method.
-        :return:
         """
         self.master.switch_frame(SendMailPage)
 
     def print_file(self):
         """
         This method is used to print some details.
-        :return:
         """
-        pass
+        print("Printing")
 
     def exit_app(self):
         """
         This method is used to exit the application.
-        :return:
         """
         self.master.destroy()
 
     def show_calendar(self):
         """
         This method is used to show the calendar.
-        :return:
         """
         self.master.switch_frame(ShowCalendar)
