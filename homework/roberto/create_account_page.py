@@ -1,9 +1,6 @@
-"""Create Account page class file"""
-
 import tkinter as tk
 from tkinter import messagebox
-
-
+import sqlite3
 
 class CreateAccountPage(tk.Frame):
     """
@@ -35,7 +32,6 @@ class CreateAccountPage(tk.Frame):
         self.entry7.grid(row=6, column=1)
 
         tk.Button(self, text="Create", command=self.create_account).grid(row=7, column=0)
-
 
         self.check = tk.IntVar()
         tk.Checkbutton(self, text="Accept terms and conditions.", variable=self.check).grid(row=8, column=0)
@@ -71,13 +67,9 @@ class CreateAccountPage(tk.Frame):
             "-------------------------\n"
         )
 
-        with open("Accounts.txt", "a") as file:
+        with open("Accounts.txt", "a", encoding='utf-8') as file:
             file.write(account_details)
 
         messagebox.showinfo("Calendar", "Account created successfully.")
-        self.master.quit()  # Replace this with the code to show the next screen
-
-
-
-
+        self.master.quit()
 

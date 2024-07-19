@@ -2,7 +2,7 @@
 
 import tkinter as tk
 from tkinter import messagebox
-from Menu_Page import MenuPage
+from menu_page import MenuPage
 
 class LoginPage(tk.Frame):
     """
@@ -21,7 +21,6 @@ class LoginPage(tk.Frame):
         self.entry2.grid(row=1, column=1)
 
         tk.Button(self, text="Login", command=self.login).grid(row=2, column=0)
-
 
         self.check = tk.IntVar()
         tk.Checkbutton(self, text="I am not a robot", variable=self.check).grid(row=3, column=0)
@@ -57,7 +56,7 @@ class LoginPage(tk.Frame):
         :return: True if the credentials are valid, False otherwise.
         """
         try:
-            with open("Accounts.txt", "r") as file:
+            with open("Accounts.txt", "r", encoding='utf-8') as file:
                 accounts = file.read().split("-------------------------\n")
                 for account in accounts:
                     account_details = account.split("\n")
@@ -69,6 +68,3 @@ class LoginPage(tk.Frame):
             messagebox.showinfo("Calendar", "Accounts file not found.")
 
         return False
-
-
-
