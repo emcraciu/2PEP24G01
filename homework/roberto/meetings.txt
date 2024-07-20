@@ -1,0 +1,29 @@
+Meeting: First Meeting
+Date: 2024-7-18
+Hour Interval: 19:00-20:30
+Access Level: Everyone
+Usernames: Everyone
+Importance: Important
+
+Event: Cornelia's Birthday
+Date: 2024-7-18
+Hour Interval: 
+
+Event: BP
+Date: 2024-7-19
+Hour Interval: 10:00-23:59
+
+Meeting: testmeet
+Date: 2024-7-17
+Hour Interval: 
+Access Level: Everyone
+Usernames: Everyone
+Importance: Optional
+
+Meeting: 20meet
+Date: 2024-7-20
+Hour Interval: 12:30-17:10
+Access Level: Private
+Usernames: amedeea,marius
+Importance: Important
+

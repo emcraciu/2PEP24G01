@@ -1,0 +1,28 @@
+First Name: Robi
+Last Name: Ago
+Email: ago@gmail.com
+Phone Number: 0712345678
+Username: agok1
+Password: 1234
+-------------------------
+First Name: 
+Last Name: 
+Email: 
+Phone Number: 
+Username: 
+Password: 
+-------------------------
+First Name: Adi
+Last Name: Popa
+Email: adipopa@gmail.ro
+Phone Number: 07111111111
+Username: adipop
+Password: 4321
+-------------------------
+First Name: Amedeea
+Last Name: Ardelean
+Email: amearde@gmail.com
+Phone Number: 0722222222
+Username: ame7
+Password: ame
+-------------------------
